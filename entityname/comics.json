@@ -24,16 +24,10 @@
                 "date_issued": "3\/9\/2022"
             }
         ],
-        "Amazing Spider-Man": [
-            {
-                "title": "issue 1",
-                "date_issued": "8\/27\/2022"
-            }
-        ],
         "Ultimate Spider-Man": [
             {
-                "title": "issue 1 (Free Comic Book Day)",
-                "date_issued": "5\/10\/2002",
+                "title": "issue 1 Powerless",
+                "date_issued": "09\/07\/2000",
                 "picture": "Ultimate_Spider-Man\/ultimate_spiderman_1.jpg"
             },
             {
@@ -52,14 +46,14 @@
                 "picture": "Ultimate_Spider-Man\/ultimate_spiderman_4.jpg"
             },
             {
-                "title": "issue 5",
-                "date_issued": "1\/03\/2001",
-                "picture": "comic_66fc6271d87061.57082464.jpg"
+                "title": "issue 6",
+                "date_issued": "02\/07\/2001",
+                "picture": "comic_6705443cc58114.84155892.jpg"
             },
             {
-                "title": "issue 6",
-                "date_issued": "2\/7\/2001",
-                "picture": "comic_66fc66bfa4ca80.47193374.jpg"
+                "title": "issue 5",
+                "date_issued": "01\/03\/2001",
+                "picture": "comic_6705439a73dbe9.26550127.webp"
             }
         ],
         "Venom": [
@@ -67,6 +61,12 @@
                 "title": "Issue 1",
                 "date_issued": "12\/19\/1992",
                 "picture": "comic_66feb0fa2f3b19.14748188.jpg"
+            }
+        ],
+        "The Amazing Spider-Man": [
+            {
+                "title": "issue 1",
+                "date_issued": "8\/27\/2022"
             }
         ]
     }

@@ -27,6 +27,7 @@ if (array_key_exists($series, $comicsData['comics'])) {
         <div class="d-flex justify-content-between mb-4">
             <a href="index.php" class="btn btn-secondary">Back to Home</a>
             <a href="create.php" class="btn btn-primary">Create a Post</a>
+            <a href="edit.php" class="btn btn-primary">Edit a Post</a>
         </div>
         <h1 class="text-center"><?php echo $series; ?> Issues</h1>
         

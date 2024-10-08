@@ -1,6 +1,14 @@
 <?php
 session_start(); // Start the session
 
+// Check if user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Store the requested page URL in the session
+    $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI']; // Current page URL
+    header("Location: login.php"); // Redirect to login
+    exit;
+}
+
 // Check if the user is logged in; if not, redirect to login page
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php'); // Redirect to login page
@@ -17,8 +25,11 @@ $message = '';
 // Handle form submission
 if (isset($_POST['submit'])) {
     $title = $_POST['title'];
-    $issue = $_POST['issue'];
+    $issue = $_POST['issue']; // This will be in "YYYY-MM-DD" format
     $series = $_POST['series'];
+
+    // Format the date to "MM/DD/YYYY"
+    $formattedIssue = date('m/d/Y', strtotime($issue)); // Convert to desired format
 
     // Check if a new series is being added
     if ($series === 'new' && !empty($_POST['newSeries'])) {
@@ -36,7 +47,7 @@ if (isset($_POST['submit'])) {
         // Prepare new issue data
         $newIssue = [
             'title' => $title,
-            'date_issued' => $issue,
+            'date_issued' => $formattedIssue, // Use formatted date here
             'picture' => $filename
         ];
 
