@@ -1,4 +1,6 @@
 <?php
+session_start(); //starts session
+
 // Load the JSON data
 $jsonData = file_get_contents('comics.json');
 $comicsData = json_decode($jsonData, true); // Decode to associative array
@@ -26,9 +28,28 @@ if (array_key_exists($series, $comicsData['comics'])) {
     <div class="container mt-5">
         <div class="d-flex justify-content-between mb-4">
             <a href="index.php" class="btn btn-secondary">Back to Home</a>
-            <a href="create.php" class="btn btn-primary">Create a Post</a>
-            <a href="edit.php" class="btn btn-primary">Edit a Post</a>
         </div>
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-end mb-3">
+            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+                <!-- Show logout button if logged in -->
+                <a href="index.php?action=logout" class="btn btn-danger me-2">Logout</a>
+            <?php else: ?>
+                <!-- Show login button if not logged in -->
+                <a href="createAccount.php" class="btn btn-primary me-2">Create Account</a>
+                <a href="login.php" class="btn btn-primary me-2">Login</a>
+            <?php endif; ?>
+        </div>
+
+        <!-- Create button (visible to logged-in users) -->
+        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+            <div class="d-flex justify-content-end mb-3">
+                <a href="create.php" class="btn btn-success me-2">Add New Series/Issue</a>
+                <a hreg="edit.php" class="btn btn-primary me-2">Edit a Series/Issue</a>
+                <a href="delete.php" class="btn btn-danger me-2">Delete a Series/Issue</a>
+            </div>
+        <?php endif; ?>
+
         <h1 class="text-center"><?php echo $series; ?> Issues</h1>
         
         <!-- Grid for displaying comic issues -->

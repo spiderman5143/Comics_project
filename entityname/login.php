@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $username;
             $_SESSION['loggedin'] = true; // Set logged-in status
 
-            // Redirect to the requested page or create.php if not set
-            $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'create.php';
+            // Redirect to the requested page or index.php if not set
+            $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'index.php';
             unset($_SESSION['redirect_url']); // Clear the redirect URL
             header("Location: $redirectUrl"); // Redirect to the requested page
             exit;
