@@ -1,0 +1,134 @@
+{
+    "comics": {
+        "Daredevil": [
+            {
+                "title": "issue 1",
+                "date_issued": "7\/13\/2022",
+                "picture": "comic_670a6864c49778.87625023.jpg"
+            },
+            {
+                "title": "issue 2",
+                "date_issued": "8\/17\/2022",
+                "picture": "comic_670a6896c62db7.11896938.jpg"
+            }
+        ],
+        "Punisher": [
+            {
+                "title": "issue 1",
+                "date_issued": "3\/9\/2022",
+                "picture": "comic_670a68cfd54846.26269222.jpg"
+            },
+            {
+                "title": "issue 2",
+                "date_issued": "04\/27\/2022",
+                "picture": "comic_670a6938f41689.08235904.jpg"
+            },
+            {
+                "title": "issue 3",
+                "date_issued": "05\/25\/2022",
+                "picture": "comic_670a6971127278.35874361.jpg"
+            },
+            {
+                "title": "issue 4",
+                "date_issued": "07\/13\/2022",
+                "picture": "comic_670a69b2d218e0.81808914.jpg"
+            },
+            {
+                "title": "issue 5",
+                "date_issued": "08\/10\/2022",
+                "picture": "comic_670a6a0c2800e4.38680341.jpg"
+            }
+        ],
+        "Ultimate Spider-Man": [
+            {
+                "title": "issue 1 Powerless",
+                "date_issued": "09\/07\/2000",
+                "picture": "Ultimate_Spider-Man\/ultimate_spiderman_1.jpg"
+            },
+            {
+                "title": "issue 2",
+                "date_issued": "10\/4\/2000",
+                "picture": "Ultimate_Spider-Man\/ultimate_spiderman_2.jpg"
+            },
+            {
+                "title": "issue 3",
+                "date_issued": "11\/1\/2000",
+                "picture": "Ultimate_Spider-Man\/ultimate_spiderman_3.jpg"
+            },
+            {
+                "title": "issue 4",
+                "date_issued": "12\/6\/2000",
+                "picture": "Ultimate_Spider-Man\/ultimate_spiderman_4.jpg"
+            },
+            {
+                "title": "issue 6",
+                "date_issued": "02\/07\/2001",
+                "picture": "comic_6705443cc58114.84155892.jpg"
+            },
+            {
+                "title": "issue 5",
+                "date_issued": "01\/03\/2001",
+                "picture": "comic_6705439a73dbe9.26550127.webp"
+            }
+        ],
+        "Venom": [
+            {
+                "title": "Issue 1",
+                "date_issued": "12\/19\/1992",
+                "picture": "comic_670a65c89e9be6.52445755.jpg"
+            },
+            {
+                "title": "issue 3",
+                "date_issued": "04\/03\/1993",
+                "picture": "comic_670a679f230cb1.05973700.jpg"
+            },
+            {
+                "title": "issue 5",
+                "date_issued": "06\/05\/1993",
+                "picture": "comic_670a68220d18e5.29529725.jpg"
+            }
+        ],
+        "The Amazing Spider-Man": [
+            {
+                "title": "issue 1",
+                "date_issued": "04\/27\/2022",
+                "picture": "comic_670a6a9f5efbe0.51294071.jpg"
+            },
+            {
+                "title": "issue 2",
+                "date_issued": "05\/25\/2022",
+                "picture": "comic_670a6ae26c8b45.49585583.jpg"
+            },
+            {
+                "title": "issue 3",
+                "date_issued": "06\/08\/2022",
+                "picture": "comic_670a6b177a53f3.80530539.jpg"
+            },
+            {
+                "title": "issue 4",
+                "date_issued": "06\/22\/2022",
+                "picture": "comic_670a6b54de2bf4.39830154.jpg"
+            },
+            {
+                "title": "issue 5",
+                "date_issued": "07\/06\/2022",
+                "picture": "comic_670a6b8b816aa2.18300721.jpg"
+            },
+            {
+                "title": "issue 6",
+                "date_issued": "07\/27\/2022",
+                "picture": "comic_670a6bc671f2d4.55541639.jpg"
+            },
+            {
+                "title": "issue 7",
+                "date_issued": "08\/10\/2022",
+                "picture": "comic_670a6c089a03e6.56343633.jpg"
+            },
+            {
+                "title": "issue 8",
+                "date_issued": "08\/24\/2022",
+                "picture": "comic_670a6c3ac71a33.69198249.jpg"
+            }
+        ]
+    }
+}
