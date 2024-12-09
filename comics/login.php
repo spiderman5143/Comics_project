@@ -1,8 +1,8 @@
 <?php
 session_start(); // Start the session
 
-// Load users from JSON
-$usersData = json_decode(file_get_contents('users.json'), true);
+// Database connection
+require_once 'db.php';
 
 // Initialize message variable
 $message = '';
@@ -12,21 +12,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Check if the username exists
-    foreach ($usersData['users'] as $user) {
-        if ($user['username'] === $username && $user['password'] === $password) {
-            // Set session variable and redirect
-            $_SESSION['username'] = $username;
-            $_SESSION['loggedin'] = true; // Set logged-in status
+    // First, check the 'users' table
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Redirect to the requested page or index.php if not set
-            $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'index.php';
-            unset($_SESSION['redirect_url']); // Clear the redirect URL
-            header("Location: $redirectUrl"); // Redirect to the requested page
-            exit;
-        }
+    // If no user found in 'users' table, check the 'admin' table
+    if (!$user) {
+        $stmt = $pdo->prepare('SELECT * FROM admin WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    $message = "Invalid username or password.";
+
+    // If user is found in either table and password matches
+    if ($user && password_verify($password, $user['password'])) {
+        // Set session variables
+        $_SESSION['username'] = $username;
+        $_SESSION['loggedin'] = true; // Logged-in status
+        $_SESSION['user_type'] = isset($user['admin_id']) ? 'admin' : 'user'; // Identify if admin or user
+
+        // Redirect to the requested page or index.php if not set
+        $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'index.php';
+        unset($_SESSION['redirect_url']);
+        header("Location: $redirectUrl");
+        exit;
+    } else {
+        $message = "Invalid username or password.";
+    }
 }
 ?>
 

@@ -1,9 +1,8 @@
 <?php
 session_start(); // Start the session
 
-// Load users from JSON
-$usersFile = 'users.json';
-$usersData = json_decode(file_get_contents($usersFile), true);
+// Database connection
+require_once 'db.php';
 
 // Initialize message variable
 $message = '';
@@ -19,33 +18,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Passwords do not match.";
     } else {
         // Check if the username already exists
-        $usernameExists = false;
-        foreach ($usersData['users'] as $user) {
-            if ($user['username'] === $username) {
-                $usernameExists = true;
-                break;
-            }
-        }
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($usernameExists) {
+        if ($existingUser) {
             $message = "Username already exists.";
         } else {
-            // Add the new user to the array
-            $newUser = [
-                'username' => $username,
-                'password' => $password // In a real-world application, make sure to hash passwords
-            ];
+            // Hashing the password
+            $hashedPass = password_hash($password, PASSWORD_DEFAULT);
 
-            $usersData['users'][] = $newUser;
+            // Inserting hashed password into database
+            try {
+                $stmt = $pdo->prepare('INSERT INTO users (username, password, bio) VALUES (:username, :password, :bio)');
+                $stmt->execute([
+                    'username' => $username,
+                    'password' => $hashedPass,
+                    'bio' => '' // empty for now
+                ]);
 
-            // Save the updated users data to the JSON file
-            file_put_contents($usersFile, json_encode($usersData, JSON_PRETTY_PRINT));
-
-            // Set session variables and redirect to login
-            $_SESSION['username'] = $username;
-            $_SESSION['loggedin'] = true;
-            header("Location: login.php"); // Redirect to login page after account creation
-            exit;
+                // Set session variables and redirect to login
+                $_SESSION['username'] = $username;
+                $_SESSION['loggedin'] = true;
+                header("Location: login.php");
+                exit;
+            } catch (PDOException $e) {
+                $message = "Error: " . $e->getMessage();
+            }
         }
     }
 }
