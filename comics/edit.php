@@ -32,11 +32,10 @@ $newTitle = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_series'])) {
     $series = $_POST['series'] ?? null;
     $newTitle = $_POST['new_title'] ?? null;
-    $editUsername = $_POST['username'] ?? null;
+    $editUsername = $isAdmin ? ($_POST['username'] ?? null) : $username; // Use logged-in username if not admin
 
     if ($series && $newTitle && $editUsername) {
         try {
-            // Admin can update any series, ensure it's for the selected user
             $userQuery = "SELECT user_id FROM users WHERE username = ?";
             $stmt = $pdo->prepare($userQuery);
             $stmt->execute([$editUsername]);
@@ -59,11 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_issue'])) {
     $series = $_POST['series'] ?? null;
     $issue = $_POST['issue'] ?? null;
     $newTitle = $_POST['new_title'] ?? null;
-    $editUsername = $_POST['username'] ?? null;
+    $editUsername = $isAdmin ? ($_POST['username'] ?? null) : $username; // Use logged-in username if not admin
 
     if ($series && $issue && $newTitle && $editUsername) {
         try {
-            // Admin can update any issue, ensure it's for the selected user
             $userQuery = "SELECT user_id FROM users WHERE username = ?";
             $stmt = $pdo->prepare($userQuery);
             $stmt->execute([$editUsername]);
@@ -88,7 +86,7 @@ try {
         $query = "SELECT DISTINCT series, (SELECT username FROM users WHERE user_id = comics.user_id) AS username FROM comics";
         $stmt = $pdo->query($query);
     } else {
-        $query = "SELECT DISTINCT series, (SELECT username FROM users WHERE user_id = comics.user_id) AS username FROM comics WHERE user_id = (SELECT user_id FROM users WHERE username = ?)";
+        $query = "SELECT DISTINCT series FROM comics WHERE user_id = (SELECT user_id FROM users WHERE username = ?)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$username]);
     }
@@ -98,9 +96,9 @@ try {
 }
 
 // Fetch issues for the selected series via AJAX
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && isset($_POST['series']) && isset($_POST['username'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && isset($_POST['series'])) {
     $series = $_POST['series'];
-    $username = $_POST['username'];
+    $username = $isAdmin ? $_POST['username'] : $username;
 
     try {
         // Fetch the user_id for the selected username
@@ -155,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && isset($_PO
                 <option value="">Select a series</option>
                 <?php foreach ($seriesOptions as $option): ?>
                     <option value="<?php echo htmlspecialchars($option['series']); ?>"
-                        data-username="<?php echo htmlspecialchars($option['username']); ?>"
+                        data-username="<?php echo $isAdmin ? htmlspecialchars($option['username']) : htmlspecialchars($username); ?>"
                         <?php echo isset($series) && $series === $option['series'] ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($option['series']) . ($isAdmin ? " (owner: {$option['username']})" : ""); ?>
                     </option>
@@ -180,7 +178,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && isset($_PO
             <select id="seriesSelect" name="series" class="form-select" required>
                 <option value="">Select a series</option>
                 <?php foreach ($seriesOptions as $option): ?>
-                    <option value="<?php echo htmlspecialchars($option['series']); ?>" data-username="<?php echo htmlspecialchars($option['username']); ?>">
+                    <option value="<?php echo htmlspecialchars($option['series']); ?>"
+                        data-username="<?php echo $isAdmin ? htmlspecialchars($option['username']) : htmlspecialchars($username); ?>">
                         <?php echo htmlspecialchars($option['series']) . ($isAdmin ? " (owner: {$option['username']})" : ""); ?>
                     </option>
                 <?php endforeach; ?>
@@ -214,7 +213,7 @@ $(document).ready(function() {
 
     $('#seriesSelect').change(function() {
         var series = $(this).val();
-        var username = $(this).find(':selected').data('username');
+        var username = $(this).find(':selected').data('username') || '<?php echo htmlspecialchars($username); ?>';
         $('#usernameHiddenIssue').val(username);
 
         if (series && username) {
@@ -224,6 +223,9 @@ $(document).ready(function() {
                 data: { ajax: 1, series: series, username: username },
                 success: function(response) {
                     $('#issueSelect').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error: ' + status + error);
                 }
             });
         } else {
